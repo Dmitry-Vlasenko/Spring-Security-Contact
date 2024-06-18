@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class UserDto {
+public class ContactDto {
 
     private Long id;
 
@@ -28,4 +28,7 @@ public class UserDto {
 
     @NotEmpty(message = "Password should not be empty")
     private String password;
+
+    @NotEmpty(message = "Phone should not be empty")
+    private String phone;
 }

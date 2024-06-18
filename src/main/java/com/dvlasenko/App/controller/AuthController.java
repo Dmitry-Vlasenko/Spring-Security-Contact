@@ -1,8 +1,8 @@
 package com.dvlasenko.App.controller;
 
-import com.dvlasenko.App.dto.UserDto;
-import com.dvlasenko.App.entity.User;
-import com.dvlasenko.App.service.UserService;
+import com.dvlasenko.App.dto.ContactDto;
+import com.dvlasenko.App.entity.Contact;
+import com.dvlasenko.App.service.ContactService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +16,10 @@ import java.util.List;
 @Controller
 public class AuthController {
 
-    private final UserService userService;
+    private final ContactService contactService;
 
-    public AuthController(UserService userService) {
-        this.userService = userService;
+    public AuthController(ContactService contactService) {
+        this.contactService = contactService;
     }
 
     @GetMapping("index")
@@ -34,32 +34,32 @@ public class AuthController {
 
     @GetMapping("register")
     public String showRegistrationForm(Model model) {
-        UserDto user = new UserDto();
-        model.addAttribute("user", user);
+        ContactDto contact = new ContactDto();
+        model.addAttribute("contact", contact);
         return "register";
     }
 
     @PostMapping("/register/save")
-    public String registration(@Valid @ModelAttribute("user") UserDto user,
+    public String registration(@Valid @ModelAttribute("contact") ContactDto contact,
                                BindingResult result,
                                Model model) {
-        User existing = userService.findByEmail(user.getEmail());
+        Contact existing = contactService.findByEmail(contact.getEmail());
         if (existing != null) {
             result.rejectValue("email", "email error",
                     "The email already exists");
         }
         if (result.hasErrors()) {
-            model.addAttribute("user", user);
+            model.addAttribute("contact", contact);
             return "register";
         }
-        userService.saveUser(user);
+        contactService.saveContact(contact);
         return "redirect:/register?success";
     }
 
-    @GetMapping("/users")
-    public String listRegisteredUsers(Model model) {
-        List<UserDto> users = userService.findAllUsers();
-        model.addAttribute("users", users);
-        return "users";
+    @GetMapping("/contacts")
+    public String listRegisteredContacts(Model model) {
+        List<ContactDto> contacts = contactService.findAllContacts();
+        model.addAttribute("contacts", contacts);
+        return "contacts";
     }
 }

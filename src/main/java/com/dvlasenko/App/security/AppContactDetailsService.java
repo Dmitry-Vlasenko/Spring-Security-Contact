@@ -1,8 +1,8 @@
 package com.dvlasenko.App.security;
 
-import com.dvlasenko.App.repository.UserRepository;
+import com.dvlasenko.App.entity.Contact;
 import com.dvlasenko.App.entity.Role;
-import com.dvlasenko.App.entity.User;
+import com.dvlasenko.App.repository.ContactRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,17 +14,17 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Service
-public class AppUserDetailsService implements UserDetailsService {
+public class AppContactDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final ContactRepository contactRepository;
 
-    public AppUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public AppContactDetailsService(ContactRepository contactRepository) {
+        this.contactRepository = contactRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
+        Contact user = contactRepository.findByEmail(email);
 
         if (user != null) {
             return new org.springframework.security.core.userdetails.User(
