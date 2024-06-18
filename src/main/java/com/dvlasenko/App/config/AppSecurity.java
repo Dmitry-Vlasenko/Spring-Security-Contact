@@ -46,6 +46,7 @@ public class AppSecurity {
                 );
         return http.build();
     }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
